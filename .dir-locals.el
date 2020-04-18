@@ -2,4 +2,6 @@
 ;;; For more information see (info "(emacs) Directory Variables")
 
 ((c++-mode
-  (c-c++-backend . clang-ccls)))
+  (compile-command . "platformio run")
+  (c-c++-backend . lsp-ccls)))
+

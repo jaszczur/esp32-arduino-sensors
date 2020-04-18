@@ -46,7 +46,10 @@ const updateSensorReadings = (cb) =>
     });
 
 const setLight = (status) =>
-  axios.post('/api/v1/light', { status })
+      axios.post('/api/v1/light', { status }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }})
     .then(res => console.log(res.data))
     .catch(e => {
       console.log(e);
