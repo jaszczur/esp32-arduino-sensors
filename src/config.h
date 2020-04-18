@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define STRING(s) #s
+#define STRING(s) s
 
 #ifdef CONFIG_WIFI_SSID
 #define WIFI_SSID STRING(CONFIG_WIFI_SSID)

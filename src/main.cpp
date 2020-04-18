@@ -19,11 +19,6 @@ AsyncWebServer server(80);
 Sensors sensors (PIN_DHT11, PIN_WATER_LEVEL, PIN_LUMINESCENCE);
 Rest rest(&sensors);
 
-const char *ssid = WIFI_SSID;
-const char *password = WIFI_PASS;
-
-const char *PARAM_MESSAGE = "message";
-
 void notFound(AsyncWebServerRequest *request) {
   request->send(404, "application/json", "{\"error\":\"Not found\"}");
 }
@@ -32,8 +27,9 @@ void setup() {
   // initialize LED digital pin as an output.
   Serial.begin(115200);
 
+  Serial.println("Connecting to WiFi network: " WIFI_SSID);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
     Serial.printf("WiFi Failed!\n");
     return;

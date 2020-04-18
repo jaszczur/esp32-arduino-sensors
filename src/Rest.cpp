@@ -21,12 +21,13 @@ void Rest::configure(AsyncWebServer &server) {
 void Rest::getSensors(AsyncWebServerRequest *request) {
   AsyncJsonResponse *response = new AsyncJsonResponse();
 
+  TempHum th = sensors->getTempHum();
   JsonObject root = response->getRoot();
   root["moisture"] = sensors->getWaterLevel();
   root["luminescence"] = sensors->getLuminescence();
   root["light"] = 30;
-  root["temperature"] = 30;
-  root["humidity"] = 30;
+  root["temperature"] = th.temperature;
+  root["humidity"] = th.humidity;
   response->setLength();
   request->send(response);
 }
