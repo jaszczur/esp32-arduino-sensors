@@ -15,6 +15,9 @@
 #define WIFI_PASS "wifi-pass"
 #endif
 
+#define TZ_INFO "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"
+#define NTP_SERVER "pool.ntp.org"
+
 #define PIN_DHT11 5
 #define PIN_WATER_LEVEL 35
 #define PIN_LUMINESCENCE 36

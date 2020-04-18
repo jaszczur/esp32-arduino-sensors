@@ -13,11 +13,13 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 #include "Sensors.hpp"
+#include "Light.hpp"
 #include "config.h"
 
 AsyncWebServer server(80);
 Sensors sensors (PIN_DHT11, PIN_WATER_LEVEL, PIN_LUMINESCENCE);
-Rest rest(&sensors);
+Light light(PIN_RELAY_LIGHTS);
+Rest rest(&sensors, &light);
 
 void notFound(AsyncWebServerRequest *request) {
   request->send(404, "application/json", "{\"error\":\"Not found\"}");
@@ -38,6 +40,8 @@ void setup() {
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
+  configTzTime(TZ_INFO, NTP_SERVER);
+
   SPIFFS.begin();
   MDNS.begin("esp32-sensors");
 
@@ -47,6 +51,8 @@ void setup() {
   server.begin();
 
   MDNS.addService("http", "tcp", 80);
+
+  light.startSchedule();
 }
 
 void loop() {}
