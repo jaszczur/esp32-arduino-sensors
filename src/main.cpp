@@ -12,12 +12,15 @@
 #include <FS.h>
 #include <SPIFFS.h>
 #include <WiFi.h>
+#include "Sensors.hpp"
+#include "config.h"
 
 AsyncWebServer server(80);
-Rest rest;
+Sensors sensors (PIN_DHT11, PIN_WATER_LEVEL, PIN_LUMINESCENCE);
+Rest rest(&sensors);
 
-const char *ssid = "KrolestwoJaszczurow";
-const char *password = "kW6WRdy2qL3h6g";
+const char *ssid = WIFI_SSID;
+const char *password = WIFI_PASS;
 
 const char *PARAM_MESSAGE = "message";
 
@@ -27,8 +30,6 @@ void notFound(AsyncWebServerRequest *request) {
 
 void setup() {
   // initialize LED digital pin as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
   Serial.begin(115200);
 
   WiFi.mode(WIFI_STA);
@@ -50,8 +51,6 @@ void setup() {
   server.begin();
 
   MDNS.addService("http", "tcp", 80);
-
-  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() {}

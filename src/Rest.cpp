@@ -22,8 +22,8 @@ void Rest::getSensors(AsyncWebServerRequest *request) {
   AsyncJsonResponse *response = new AsyncJsonResponse();
 
   JsonObject root = response->getRoot();
-  root["moisture"] = 30;
-  root["luminescence"] = 30;
+  root["moisture"] = sensors->getWaterLevel();
+  root["luminescence"] = sensors->getLuminescence();
   root["light"] = 30;
   root["temperature"] = 30;
   root["humidity"] = 30;
