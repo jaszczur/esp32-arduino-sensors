@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -55,6 +56,23 @@ const setLight = (status) =>
       console.log(e);
     });
 
+const perceptionValues = [
+  "Dry",
+  "Very comfortable",
+  "Comfortable",
+  "Ok",
+  "Uncomfortable",
+  "Quite uncomfortable",
+  "Very uncomfortable",
+  "Severe uncomfortable",
+];
+
+const lightConfigValues = [
+  "Always ON",
+  "Always OFF",
+  "Scheduled"
+];
+
 function App() {
   const classes = useStyles();
   const [sensors, setSensors] = useState({});
@@ -65,7 +83,18 @@ function App() {
     return () => clearInterval(intervalHandle);
   }, []);
 
+  const perception = useMemo(() => perceptionValues[sensors.perception],
+                             [sensors.perception]);
+  const lightConfig = useMemo(() => lightConfigValues[sensors.lightConfig],
+        [sensors.lightConfig]);
+
+  const deviceTime = useMemo(()=> new Date(sensors.ts * 1000).toString(), [sensors.ts]);
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const setLightAndUpdate = (configValue) => {
+    setLight(configValue).then(() => updateSensorReadings(setSensors));
+  };
 
   return (
     <main className={classes.content}>
@@ -74,12 +103,17 @@ function App() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} lg={4}>
             <Paper className={fixedHeightPaper}>
-              Temperature: {sensors.temperature}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Paper className={fixedHeightPaper}>
+              <Box>
+    Temperature: {sensors.temperature}
+    </Box><Box>
               Humidity: {sensors.humidity}
+    </Box><Box>
+              Absolute hum.: {sensors.absHumidity}
+    </Box><Box>
+              Dew point: {sensors.dewPoint}
+    </Box><Box>
+              Perception: {perception}
+    </Box>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
@@ -89,18 +123,26 @@ function App() {
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Paper className={fixedHeightPaper}>
-              Moisture: {sensors.moisture}
+              Water level: {sensors.waterLevel}
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} lg={4}>
             <Paper className={fixedHeightPaper}>
               <WbIncandescentIcon />
-              Light: {sensors.light}
-              <div className={classes.buttons}>
-                <Button variant="contained" onClick={() => setLight(0)}>off</Button>
-                <Button variant="contained" onClick={() => setLight(1)}>on</Button>
-                <Button variant="contained" onClick={() => setLight(2)}>schedule</Button>
-              </div>
+              <Box>
+    Light: {sensors.light ? "ON" : "OFF"}
+    </Box>
+              <Box>
+                Configuration: {lightConfig}
+              </Box>
+              <Box>
+                Time: {deviceTime}
+    </Box>
+              <Box className={classes.buttons}>
+                <Button variant="contained" onClick={() => setLightAndUpdate(0)}>Off</Button>
+                <Button variant="contained" onClick={() => setLightAndUpdate(1)}>On</Button>
+                <Button variant="contained" onClick={() => setLightAndUpdate(2)}>Schedule</Button>
+              </Box>
             </Paper>
           </Grid>
         </Grid>

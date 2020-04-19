@@ -3,10 +3,25 @@
 
 #include <Arduino.h>
 #include <DHTesp.h>
+#include <memory>
 
 struct TempHum {
   int temperature;
   int humidity;
+  int dewPoint;
+  int absoluteHumidity;
+
+  /*
+    0 -> Dry
+    1 -> Very comfortable
+    2 -> Comfortable
+    3 -> Ok
+    4 -> Uncomfortable
+    5 -> Quite uncomfortable
+    6 -> Very uncomfortable
+    7 -> Severe uncomfortable
+   */
+  byte perception;
 };
 
 class Sensors {
@@ -19,10 +34,12 @@ public:
   };
   int getWaterLevel();
   int getLuminescence();
-  TempHum getTempHum();
+  const TempHum& getTempHum();
 
 private:
   DHTesp dht;
+  TempHum tempHumReading;
+  unsigned long lastReading;
   int pinWaterLevel;
   int pinLuminescence;
 };

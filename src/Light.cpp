@@ -20,6 +20,10 @@ void Light::setConfig(LightConfig config) {
   digitalWrite(pin, turnedOn ? HIGH : LOW);
 }
 
+LightConfig Light::getConfig() {
+  return config;
+}
+
 bool Light::isTurnedOn() { return turnedOn; }
 
 void Light::startSchedule() { ticker.attach(30, schedule, this); }

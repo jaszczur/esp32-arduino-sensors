@@ -9,20 +9,22 @@ enum LightConfig { OFF, ON, SCHEDULE };
 class Light {
 public:
   Light(int relayPin, int turnOnHour = 8, int turnOffHour = 22)
-      : pin(relayPin), turnOnHour(turnOnHour), turnOffHour(turnOffHour) {
+      : pin(relayPin), turnOnHour(turnOnHour), turnOffHour(turnOffHour),
+        config(SCHEDULE) {
     pinMode(pin, OUTPUT);
   }
   void startSchedule();
   void setConfig(LightConfig config);
+  LightConfig getConfig();
   bool isTurnedOn();
 
 private:
-  Ticker ticker;
   int pin;
-  LightConfig config;
   bool turnedOn;
-  const int turnOnHour;
-  const int turnOffHour;
+  int turnOnHour;
+  int turnOffHour;
+  LightConfig config;
+  Ticker ticker;
 
   friend void schedule(Light *light);
 };

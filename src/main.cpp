@@ -26,7 +26,6 @@ void notFound(AsyncWebServerRequest *request) {
 }
 
 void setup() {
-  // initialize LED digital pin as an output.
   Serial.begin(115200);
 
   Serial.println("Connecting to WiFi network: " WIFI_SSID);

@@ -22,17 +22,22 @@ void Rest::configure(AsyncWebServer &server) {
 void Rest::getSensors(AsyncWebServerRequest *request) {
   AsyncJsonResponse *response = new AsyncJsonResponse();
 
-  TempHum th = sensors->getTempHum();
+  const TempHum th = sensors->getTempHum();
   time_t rawtime;
   time(&rawtime);
 
-      JsonObject root = response->getRoot();
-  root["moisture"] = sensors->getWaterLevel();
+  JsonObject root = response->getRoot();
+  root["ts"] = rawtime;
+  root["waterLevel"] = sensors->getWaterLevel();
   root["luminescence"] = sensors->getLuminescence();
   root["light"] = light->isTurnedOn();
+  root["lightConfig"] = light->getConfig();
   root["temperature"] = th.temperature;
   root["humidity"] = th.humidity;
-  root["tz"] = rawtime;
+  root["absHumidity"] = th.absoluteHumidity;
+  root["dewPoint"] = th.dewPoint;
+  root["perception"] = th.perception;
+
   response->setLength();
   request->send(response);
 }
