@@ -1,22 +1,22 @@
 import * as types from "./types";
+import * as sensorTypes from "../sensors/types";
 import { createLogic } from "redux-logic";
-import axios from "axios";
 
-const setLightStateLogic = createLogic({
+const setLightConfigLogic = createLogic({
   type: types.SET_LIGHT_CONFIG,
   latest: true,
 
   processOptions: {
     dispatchReturn: true,
-    successType: types.SET_LIGHT_CONFIG_SUCCESS,
+    successType: sensorTypes.FETCH_SENSOR_DATA,
     failType: types.SET_LIGHT_CONFIG_FAILED,
   },
 
-  process: ({ action }) =>
-    axios
+  process: ({ action, http }) =>
+    http
       .post(
         "/api/v1/light",
-        { state: action.state },
+        { config: action.lightConfig },
         {
           headers: {
             "Content-Type": "application/json",
@@ -26,4 +26,4 @@ const setLightStateLogic = createLogic({
       .then((resp) => resp.data),
 });
 
-export default [setLightStateLogic];
+export default [setLightConfigLogic];

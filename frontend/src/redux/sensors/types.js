@@ -12,4 +12,4 @@ export const perceptionValues = [
   "Severe uncomfortable",
 ];
 
-export const lightConfigValues = ["Always ON", "Always OFF", "Scheduled"];
+export const lightConfigValues = ["Always OFF", "Always ON", "Scheduled"];

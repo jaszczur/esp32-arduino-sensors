@@ -13,7 +13,7 @@ void Rest::configure(AsyncWebServer &server) {
   AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler(
       "/api/v1/light",
       [this](AsyncWebServerRequest *request, JsonVariant &json) {
-        postLights(request, json.as<JsonObject>());
+        this->postLights(request, json.as<JsonObject>());
       });
   server.addHandler(handler);
   server.on("/api/v1/sensors", HTTP_GET, REST_HANDLE(getSensors));
@@ -43,9 +43,9 @@ void Rest::getSensors(AsyncWebServerRequest *request) {
 }
 
 void Rest::postLights(AsyncWebServerRequest *request, JsonObject json) {
-  int status = json["status"].as<int>();
+  int config = json["config"].as<int>();
 
-  light->setConfig(LightConfig(status));
+  light->setConfig(LightConfig(config));
 
   request->send(200);
 }

@@ -1,5 +1,4 @@
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -7,7 +6,7 @@ import useGenericStyles from "../style";
 
 const EnvironmentTile = () => {
   const genericStyles = useGenericStyles();
-  const sensors = useSelector((st) => st.sensors.data);
+  const sensors = useSelector((st) => st.sensors);
 
   return (
     <Paper elevation={5} className={genericStyles.paper}>

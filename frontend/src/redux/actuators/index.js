@@ -7,7 +7,7 @@ import { SET_LIGHT_CONFIG } from "./types";
  *
  * @param {conf} light configuration
  */
-export const configureLights = (state) => ({
+export const configureLights = (lightConfig) => ({
   type: SET_LIGHT_CONFIG,
-  state,
+  lightConfig,
 });

@@ -1,6 +1,5 @@
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) =>
 
 const LightTile = () => {
   const dispatch = useDispatch();
-  const sensors = useSelector((st) => st.sensors.data);
+  const sensors = useSelector((st) => st.sensors);
   const classes = useStyles();
   const genericStyles = useGenericStyles();
   const deviceTime = useMemo(() => new Date(sensors.ts * 1000).toString(), [

@@ -16,13 +16,18 @@ void schedule(Light *light) {
 
 void Light::setConfig(LightConfig config) {
   this->config = config;
-  turnedOn = config == ON;
-  digitalWrite(pin, turnedOn ? HIGH : LOW);
+
+  if (config == SCHEDULE) {
+    // TODO: Handle concurrent updates
+    // For now let the schedule do it's job
+    // schedule(this);
+  } else {
+    turnedOn = config == ON;
+    digitalWrite(pin, turnedOn ? HIGH : LOW);
+  }
 }
 
-LightConfig Light::getConfig() {
-  return config;
-}
+LightConfig Light::getConfig() { return config; }
 
 bool Light::isTurnedOn() { return turnedOn; }
 
