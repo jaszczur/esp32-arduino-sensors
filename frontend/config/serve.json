@@ -1,0 +1,18 @@
+{
+  "public": "build",
+  "headers": [
+    {
+      "source" : "**/*.js.gz",
+      "headers" : [
+        {
+          "key" : "Content-Type",
+          "value" : "application/javascript"
+        },
+        {
+          "key" : "Content-Encoding",
+          "value" : "gzip"
+        }
+      ]
+    }
+  ]
+}

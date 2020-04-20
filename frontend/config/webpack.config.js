@@ -24,13 +24,16 @@ const getClientEnvironment = require("./env");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
-
+const CompressionPlugin = require("compression-webpack-plugin");
+const HtmlWebpackChangeAssetsExtensionPlugin = require("html-webpack-change-assets-extension-plugin");
 const postcssNormalize = require("postcss-normalize");
 
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
+// const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
+// Disable source maps to fit limited ESP32 SPIFFS partition
+const shouldUseSourceMap = false;
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
@@ -530,10 +533,17 @@ module.exports = function (webpackEnv) {
                   minifyCSS: true,
                   minifyURLs: true,
                 },
+                jsExtension: ".gz",
               }
             : undefined
         )
       ),
+      isEnvProduction &&
+        new CompressionPlugin({
+          test: /\.js(\?.*)?$/i,
+          deleteOriginalAssets: true,
+        }),
+      isEnvProduction && new HtmlWebpackChangeAssetsExtensionPlugin(),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
