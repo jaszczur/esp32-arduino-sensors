@@ -1,14 +1,15 @@
 import Paper from "@material-ui/core/Paper";
 import React from "react";
-import { useSelector } from "react-redux";
 import useGenericStyles from "../style";
+import PropTypes from "prop-types";
 
-const WaterLevelTile = () => {
-  const waterLevel = useSelector((st) => st.sensors.waterLevel);
+const WaterLevelTile = ({ value }) => {
   const genericStyles = useGenericStyles();
-  return (
-    <Paper className={genericStyles.paper}>Water level: {waterLevel}</Paper>
-  );
+  return <Paper className={genericStyles.paper}>Water level: {value}</Paper>;
 };
 
-export default WaterLevelTile;
+WaterLevelTile.propTypes = {
+  value: PropTypes.number.isRequired,
+};
+
+export default React.memo(WaterLevelTile);

@@ -5,12 +5,12 @@ const INITIAL_STATE = {
   waterLevel: 0,
   luminescence: 0,
   light: false,
-  lightConfig: types.lightConfigValues[0],
+  lightConfig: types.lightConfigValueMapping[0],
   temperature: 0,
   humidity: 0,
   absHumidity: 0,
   dewPoint: 0,
-  perception: types.perceptionValues[0],
+  perception: types.perceptionValueMapping[0],
 };
 
 const sensorsReducer = (state = INITIAL_STATE, action) => {
@@ -19,8 +19,8 @@ const sensorsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        lightConfig: types.lightConfigValues[action.payload.lightConfig],
-        perception: types.perceptionValues[action.payload.perception],
+        lightConfig: types.lightConfigValueMapping[action.payload.lightConfig],
+        perception: types.perceptionValueMapping[action.payload.perception],
       };
 
     default:

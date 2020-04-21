@@ -1,12 +1,11 @@
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import React from "react";
-import { useSelector } from "react-redux";
 import useGenericStyles from "../style";
+import PropTypes from "prop-types";
 
-const EnvironmentTile = () => {
+const EnvironmentTile = ({ sensors }) => {
   const genericStyles = useGenericStyles();
-  const sensors = useSelector((st) => st.sensors);
 
   return (
     <Paper elevation={5} className={genericStyles.paper}>
@@ -19,4 +18,14 @@ const EnvironmentTile = () => {
   );
 };
 
-export default EnvironmentTile;
+EnvironmentTile.propTypes = {
+  sensors: PropTypes.shape({
+    temperature: PropTypes.number.isRequired,
+    humidity: PropTypes.number.isRequired,
+    absHumidity: PropTypes.number.isRequired,
+    dewPoint: PropTypes.number.isRequired,
+    perception: PropTypes.string.isRequired,
+  }),
+};
+
+export default React.memo(EnvironmentTile);

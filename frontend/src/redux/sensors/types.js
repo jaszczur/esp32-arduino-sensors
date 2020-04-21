@@ -1,7 +1,7 @@
 export const FETCH_SENSOR_DATA = "FETCH_SENSOR_DATA";
 export const GOT_SENSOR_DATA = "GOT_SENSOR_DATA";
 
-export const perceptionValues = [
+export const perceptionValueMapping = [
   "Dry",
   "Very comfortable",
   "Comfortable",
@@ -12,4 +12,4 @@ export const perceptionValues = [
   "Severe uncomfortable",
 ];
 
-export const lightConfigValues = ["Always OFF", "Always ON", "Scheduled"];
+export const lightConfigValueMapping = ["Always OFF", "Always ON", "Scheduled"];

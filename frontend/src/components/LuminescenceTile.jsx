@@ -1,14 +1,15 @@
 import Paper from "@material-ui/core/Paper";
 import React from "react";
-import { useSelector } from "react-redux";
 import useGenericStyles from "../style";
+import PropTypes from "prop-types";
 
-const LuminescenceTile = () => {
-  const luminescence = useSelector((st) => st.sensors.luminescence);
+const LuminescenceTile = ({ value }) => {
   const genericStyles = useGenericStyles();
-  return (
-    <Paper className={genericStyles.paper}>Luminescence: {luminescence}</Paper>
-  );
+  return <Paper className={genericStyles.paper}>Luminescence: {value}</Paper>;
 };
 
-export default LuminescenceTile;
+LuminescenceTile.propTypes = {
+  value: PropTypes.number.isRequired,
+};
+
+export default React.memo(LuminescenceTile);
