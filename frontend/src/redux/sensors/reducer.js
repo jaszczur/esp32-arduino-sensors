@@ -19,8 +19,8 @@ const sensorsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        lightConfig: types.lightConfigValueMapping[action.payload.lightConfig],
-        perception: types.perceptionValueMapping[action.payload.perception],
+        luminescence: action.payload.luminescence / 4096,
+        waterLevel: 1.0 - action.payload.waterLevel / 4096,
       };
 
     default:

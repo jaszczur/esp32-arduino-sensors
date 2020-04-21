@@ -10,3 +10,5 @@ export const lightConfigValues = [
   LIGHT_CONFIG_OFF,
   LIGHT_CONFIG_SCHEDULE,
 ];
+
+export const lightConfigLabels = ["Always OFF", "Always ON", "Scheduled"];

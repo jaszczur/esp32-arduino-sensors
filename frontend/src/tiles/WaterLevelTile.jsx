@@ -1,11 +1,9 @@
-import Paper from "@material-ui/core/Paper";
 import React from "react";
-import useGenericStyles from "../style";
 import PropTypes from "prop-types";
+import Tile from "../components/Tile";
 
 const WaterLevelTile = ({ value }) => {
-  const genericStyles = useGenericStyles();
-  return <Paper className={genericStyles.paper}>Water level: {value}</Paper>;
+  return <Tile>Water presence: {(value * 100).toFixed()} %</Tile>;
 };
 
 WaterLevelTile.propTypes = {
