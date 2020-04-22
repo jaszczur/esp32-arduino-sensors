@@ -10,38 +10,36 @@ import {
 } from "../redux/actuators/types";
 import PropTypes from "prop-types";
 
-const LightConfigButton = ({
-  targetConfig,
-  currentConfig,
-  onConfigPressed,
-}) => (
-  <Button
-    primary={currentConfig === targetConfig}
-    onClick={() => onConfigPressed(targetConfig)}
-  >
-    {lightConfigLabels[targetConfig]}
-  </Button>
+const LightConfigButton = React.memo(
+  ({ targetConfig, currentConfig, onConfigPressed }) => (
+    <Button
+      primary={currentConfig === targetConfig}
+      onClick={() => onConfigPressed(targetConfig)}
+    >
+      {lightConfigLabels[targetConfig]}
+    </Button>
+  )
 );
-const LightTile = ({ sensors, onConfigPressed }) => {
-  const luminescencePercent = (sensors.luminescence * 100).toFixed();
+
+const LightTile = ({ data, onConfigPressed }) => {
   return (
     <Tile>
-      <Box>Light: {sensors.light ? "ON" : "OFF"}</Box>
-      <Box>Luminescence: {luminescencePercent} %</Box>
+      <Box>Light: {data.light ? "ON" : "OFF"}</Box>
+      <Box>Luminescence: {data.luminescencePercent} %</Box>
       <Box>
         <LightConfigButton
           onConfigPressed={onConfigPressed}
-          currentConfig={sensors.lightConfig}
+          currentConfig={data.lightConfig}
           targetConfig={LIGHT_CONFIG_ON}
         />
         <LightConfigButton
           onConfigPressed={onConfigPressed}
-          currentConfig={sensors.lightConfig}
+          currentConfig={data.lightConfig}
           targetConfig={LIGHT_CONFIG_OFF}
         />
         <LightConfigButton
           onConfigPressed={onConfigPressed}
-          currentConfig={sensors.lightConfig}
+          currentConfig={data.lightConfig}
           targetConfig={LIGHT_CONFIG_SCHEDULE}
         />
       </Box>
@@ -50,10 +48,10 @@ const LightTile = ({ sensors, onConfigPressed }) => {
 };
 
 LightTile.propTypes = {
-  sensors: PropTypes.shape({
+  data: PropTypes.shape({
     light: PropTypes.bool.isRequired,
     lightConfig: PropTypes.number.isRequired,
-    luminescence: PropTypes.number.isRequired,
+    luminescencePercent: PropTypes.number.isRequired,
   }).isRequired,
   onConfigPressed: PropTypes.func.isRequired,
 };

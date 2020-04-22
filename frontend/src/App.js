@@ -1,16 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EnvironmentTile from "./tiles/EnvironmentTile";
 import LightTile from "./tiles/LightTile";
 import TimeTile from "./tiles/TimeTile";
 import WaterLevelTile from "./tiles/WaterLevelTile";
 import { fetchSensorData } from "./redux/sensors";
+import {
+  getEnvironmentData,
+  getWaterData,
+  getLightData,
+  getTimeData,
+} from "./redux/sensors/selectors";
 import { configureLights } from "./redux/actuators";
 import Main from "./components/Main";
 
 function App() {
   const dispatch = useDispatch();
-  const sensors = useSelector((st) => st.sensors);
+  const setLightAndUpdate = useCallback(
+    (configValue) => {
+      dispatch(configureLights(configValue));
+    },
+    [dispatch]
+  );
+  const environmentData = useSelector(getEnvironmentData);
+  const timeData = useSelector(getTimeData);
+  const waterData = useSelector(getWaterData);
+  const lightData = useSelector(getLightData);
 
   useEffect(() => {
     dispatch(fetchSensorData());
@@ -21,16 +36,12 @@ function App() {
     return () => clearInterval(intervalHandle);
   }, [dispatch]);
 
-  const setLightAndUpdate = (configValue) => {
-    dispatch(configureLights(configValue));
-  };
-
   return (
     <Main>
-      <EnvironmentTile sensors={sensors} />
-      <TimeTile timestamp={sensors.ts} />
-      <WaterLevelTile value={sensors.waterLevel} />
-      <LightTile sensors={sensors} onConfigPressed={setLightAndUpdate} />
+      <EnvironmentTile data={environmentData} />
+      <TimeTile data={timeData} />
+      <WaterLevelTile data={waterData} />
+      <LightTile data={lightData} onConfigPressed={setLightAndUpdate} />
     </Main>
   );
 }
