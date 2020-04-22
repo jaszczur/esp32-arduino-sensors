@@ -1,15 +1,14 @@
-import * as types from "./types";
-import sensorsSlice from "../../features/sensor-monitoring/slice";
+import sensorsSlice from "../sensor-monitoring/slice";
+import slice from "./slice";
 import { createLogic } from "redux-logic";
 
 const setLightConfigLogic = createLogic({
-  type: types.SET_LIGHT_CONFIG,
+  type: slice.actions.configureLights,
   latest: true,
 
   processOptions: {
     dispatchReturn: true,
     successType: sensorsSlice.actions.fetchSensorData,
-    failType: types.SET_LIGHT_CONFIG_FAILED,
   },
 
   process: ({ action, http }) => {
@@ -17,7 +16,7 @@ const setLightConfigLogic = createLogic({
       return http
         .post(
           "/api/v1/light",
-          { config: action.lightConfig },
+          { config: action.payload },
           {
             headers: {
               "Content-Type": "application/json",
@@ -26,7 +25,7 @@ const setLightConfigLogic = createLogic({
         )
         .then((resp) => resp.data);
     } else {
-      console.log("Would change light state to ", action.lightConfig);
+      console.log("Would change light state to ", action.payload);
       return Promise.resolve({});
     }
   },

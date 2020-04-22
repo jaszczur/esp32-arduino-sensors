@@ -75,10 +75,14 @@
     "start": "node scripts/start.js",
     "build": "rimraf build && node scripts/build.js && rm build/precache*.js",
     "test": "node scripts/test.js",
-    "serve": "serve --config config/serve.json"
+    "serve": "serve --config config/serve.json",
+    "lint": "eslint src/features",
+    "lint:fix": "eslint --fix src/features"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app"
+    ]
   },
   "browserslist": {
     "production": [
