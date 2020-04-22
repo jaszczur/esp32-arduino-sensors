@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { createDeepEqualSelector } from "../../utils/reselect";
 import pick from "lodash/fp/pick";
 import { perceptionLabels } from "./types";
 import { DateTime } from "luxon";
@@ -10,32 +11,31 @@ const extractEnvironmentData = (state) =>
     state.sensors
   );
 
-export const getEnvironmentData = createSelector(
+export const getEnvironmentData = createDeepEqualSelector(
   extractEnvironmentData,
-  (sensors) => ({
-    ...sensors,
-    perceptionLabel: perceptionLabels[sensors.perception],
-  })
+  (sensors) => {
+    console.log("rtrastrastiratnrtnar");
+    return {
+      ...sensors,
+      perceptionLabel: perceptionLabels[sensors.perception],
+    };
+  }
 );
 
 // Time
-const extractTimeData = (state) => pick(["ts"], state.sensors);
+const extractTimeData = (state) => state.sensors.ts;
 
-export const getTimeData = createSelector(extractTimeData, (sensors) => ({
-  formattedTime: sensors.ts.toLocaleString(DateTime.TIME_WITH_SECONDS),
-  timeDiffSec: DateTime.local().diff(sensors.ts).as("seconds").toFixed(),
-}));
+export const getTimeData = createSelector(extractTimeData, (rawTimestamp) => {
+  const ts = DateTime.fromSeconds(rawTimestamp);
+  return {
+    ts,
+    formattedTime: ts.toLocaleString(DateTime.TIME_WITH_SECONDS),
+    timeDiffSec: DateTime.local().diff(ts).as("seconds").toFixed(),
+  };
+});
 
 // Water
-const extractWaterData = (state) => pick(["waterLevel"], state.sensors);
-export const getWaterData = createSelector(extractWaterData, (sensors) => ({
-  levelPercent: (sensors.waterLevel * 100).toFixed(),
-}));
-
-// Light
-const extractLightData = (state) =>
-  pick(["luminescence", "light", "lightConfig"], state.sensors);
-export const getLightData = createSelector(extractLightData, (sensors) => ({
-  ...sensors,
-  luminescencePercent: (sensors.luminescence * 100).toFixed(),
+const extractWaterData = (state) => state.sensors.waterLevel;
+export const getWaterData = createSelector(extractWaterData, (waterLevel) => ({
+  levelPercent: (waterLevel * 100).toFixed(),
 }));

@@ -1,14 +1,16 @@
 import Box from "../../components/Box";
 import Tile from "../../components/Tile";
 import Button from "../../components/Button";
-import React from "react";
+import React, { useCallback } from "react";
 import {
   LIGHT_CONFIG_ON,
   LIGHT_CONFIG_OFF,
   LIGHT_CONFIG_SCHEDULE,
   lightConfigLabels,
 } from "./types";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import slice from "./slice";
+import { getLightData } from "./selectors";
 
 const LightConfigButton = React.memo(
   ({ targetConfig, currentConfig, onConfigPressed }) => (
@@ -21,7 +23,15 @@ const LightConfigButton = React.memo(
   )
 );
 
-const LightTile = ({ data, onConfigPressed }) => {
+const LightTile = () => {
+  const dispatch = useDispatch();
+  const onConfigPressed = useCallback(
+    (configValue) => {
+      dispatch(slice.actions.configureLights(configValue));
+    },
+    [dispatch]
+  );
+  const data = useSelector(getLightData);
   return (
     <Tile>
       <Box>Light: {data.light ? "ON" : "OFF"}</Box>
@@ -45,15 +55,6 @@ const LightTile = ({ data, onConfigPressed }) => {
       </Box>
     </Tile>
   );
-};
-
-LightTile.propTypes = {
-  data: PropTypes.shape({
-    light: PropTypes.bool.isRequired,
-    lightConfig: PropTypes.number.isRequired,
-    luminescencePercent: PropTypes.string.isRequired,
-  }).isRequired,
-  onConfigPressed: PropTypes.func.isRequired,
 };
 
 export default React.memo(LightTile);

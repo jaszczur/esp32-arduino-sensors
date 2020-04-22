@@ -1,13 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Tile from "../../components/Tile";
+import { useSelector } from "react-redux";
+import { getWaterData } from "./selectors";
 
-const WaterLevelTile = ({ data }) => {
+const WaterLevelTile = () => {
+  const data = useSelector(getWaterData);
   return <Tile>Water presence: {data.levelPercent} %</Tile>;
-};
-
-WaterLevelTile.propTypes = {
-  data: PropTypes.shape({ levelPercent: PropTypes.string.isRequired }),
 };
 
 export default React.memo(WaterLevelTile);

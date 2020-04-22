@@ -10,9 +10,8 @@ function App() {
   useEffect(() => {
     dispatch(sensorsSlice.actions.fetchSensorData());
     const intervalHandle = setInterval(() => {
-      console.log("refreshing data");
       dispatch(sensorsSlice.actions.fetchSensorData());
-    }, 10000);
+    }, 1000);
     return () => clearInterval(intervalHandle);
   }, [dispatch]);
 

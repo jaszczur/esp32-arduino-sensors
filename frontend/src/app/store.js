@@ -1,22 +1,22 @@
-import { applyMiddleware, createStore, compose } from "redux";
-import rootReducer from "./reducers";
+import reducer from "./reducers";
 import { createLogicMiddleware } from "redux-logic";
 import rootLogic from "./logic";
 import axios from "axios";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
 // Dependencies for Logic
 const deps = {
   http: axios,
 };
 
-// Redux dev tools
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 // Create middleware
 const logicMiddleware = createLogicMiddleware(rootLogic, deps);
+const defaultMiddleware = getDefaultMiddleware({
+  thunk: false,
+});
 
-// Prepare middleware to ensure Redux can use it
-const composedMiddleware = composeEnhancers(applyMiddleware(logicMiddleware));
-
-// Create store with reducers and all our Logic
-export default createStore(rootReducer, composedMiddleware);
+export default configureStore({
+  reducer,
+  middleware: [...defaultMiddleware, logicMiddleware],
+  devTools: process.env.NODE_ENV !== "production",
+});

@@ -2,9 +2,11 @@ import Box from "../../components/Box";
 import Tile from "../../components/Tile";
 import React from "react";
 import { perceptionLabels } from "./types";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { getEnvironmentData } from "./selectors";
 
-const EnvironmentTile = ({ data }) => {
+const EnvironmentTile = () => {
+  const data = useSelector(getEnvironmentData);
   return (
     <Tile>
       <Box>Temperature: {data.temperature} °C</Box>
@@ -14,16 +16,6 @@ const EnvironmentTile = ({ data }) => {
       <Box>Perception: {perceptionLabels[data.perception]}</Box>
     </Tile>
   );
-};
-
-EnvironmentTile.propTypes = {
-  data: PropTypes.shape({
-    temperature: PropTypes.number.isRequired,
-    humidity: PropTypes.number.isRequired,
-    absHumidity: PropTypes.number.isRequired,
-    dewPoint: PropTypes.number.isRequired,
-    perception: PropTypes.number.isRequired,
-  }),
 };
 
 export default React.memo(EnvironmentTile);
