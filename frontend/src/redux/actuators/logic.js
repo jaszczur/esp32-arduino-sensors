@@ -1,5 +1,5 @@
 import * as types from "./types";
-import * as sensorTypes from "../sensors/types";
+import sensorsSlice from "../../features/sensor-monitoring/slice";
 import { createLogic } from "redux-logic";
 
 const setLightConfigLogic = createLogic({
@@ -8,7 +8,7 @@ const setLightConfigLogic = createLogic({
 
   processOptions: {
     dispatchReturn: true,
-    successType: sensorTypes.FETCH_SENSOR_DATA,
+    successType: sensorsSlice.actions.fetchSensorData,
     failType: types.SET_LIGHT_CONFIG_FAILED,
   },
 

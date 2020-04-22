@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import sensorReducer from "./sensors/reducer";
+import sensorsSlice from "../features/sensor-monitoring/slice";
 import actuatorReducer from "./actuators/reducer";
 
 const rootReducer = combineReducers({
-  sensors: sensorReducer,
+  sensors: sensorsSlice.reducer,
   actuators: actuatorReducer,
 });
 

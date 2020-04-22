@@ -1,13 +1,13 @@
-import * as types from "./types";
+import slice from "./slice";
 import { createLogic } from "redux-logic";
 
 const fetchSensorsDataLogic = createLogic({
-  type: types.FETCH_SENSOR_DATA,
+  type: slice.actions.fetchSensorData.toString(),
   latest: true,
 
   processOptions: {
     dispatchReturn: true,
-    successType: types.GOT_SENSOR_DATA,
+    successType: slice.actions.gotSensorData,
   },
 
   process: ({ http }) =>

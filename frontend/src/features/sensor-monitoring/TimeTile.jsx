@@ -1,5 +1,5 @@
-import Tile from "../components/Tile";
-import Box from "../components/Box";
+import Tile from "../../components/Tile";
+import Box from "../../components/Box";
 import React from "react";
 import PropTypes from "prop-types";
 import { DateTime } from "luxon";

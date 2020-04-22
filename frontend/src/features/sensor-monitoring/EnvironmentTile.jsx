@@ -1,7 +1,7 @@
-import Box from "../components/Box";
-import Tile from "../components/Tile";
+import Box from "../../components/Box";
+import Tile from "../../components/Tile";
 import React from "react";
-import { perceptionLabels } from "../redux/sensors/types";
+import { perceptionLabels } from "./types";
 import PropTypes from "prop-types";
 
 const EnvironmentTile = ({ data }) => {
