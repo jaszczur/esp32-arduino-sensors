@@ -24,3 +24,4 @@ const lightSlice = createSlice({
 });
 
 export default lightSlice;
+export const { configureLights } = lightSlice.actions;

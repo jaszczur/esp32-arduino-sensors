@@ -22,3 +22,4 @@ const sensorsSlice = createSlice({
 });
 
 export default sensorsSlice;
+export const { fetchSensorData } = sensorsSlice.actions;

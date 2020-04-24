@@ -9,7 +9,7 @@ import {
   lightConfigLabels,
 } from "./types";
 import { useSelector, useDispatch } from "react-redux";
-import slice from "./slice";
+import { configureLights } from "./slice";
 import { getLightData } from "./selectors";
 
 const LightConfigButton = React.memo(
@@ -27,7 +27,7 @@ const LightTile = () => {
   const dispatch = useDispatch();
   const onConfigPressed = useCallback(
     (configValue) => {
-      dispatch(slice.actions.configureLights(configValue));
+      dispatch(configureLights(configValue));
     },
     [dispatch]
   );

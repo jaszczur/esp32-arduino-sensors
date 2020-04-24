@@ -4,3 +4,4 @@
 .ccls
 .clang_complete
 .ccls-cache/
+.log/
